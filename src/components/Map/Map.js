@@ -16,7 +16,7 @@ export const Map = ({ data }) => {
                     borderRadius: "30%",
                 }}
             >
-                <img src={country.countryInfo.flag} height="10px" />
+                <img src={country.countryInfo.flag} height="10px" alt="abcd" />
                 <br />
                 {country.countryInfo.iso3}
                 <br />
