@@ -1,24 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { Cards } from "./components/Cards/Cards";
+import { Chart } from "./components/Chart/Chart";
+import { CountryPicker } from "./components/CountryPicker/CountryPicker";
+import { Map } from "./components/Map/Map";
+import styles from "./App.module.css"
+import { fetchData,fetchCovidData } from "./api";
+
 
 function App() {
+  const [covidData, setCovidData] = useState({});
+  const [covidCountry, setCovidCountry] = useState('');
+  const [covidData2,setCovidData2] = useState([])
+  const handleCovidCountryChange = async (country) => {
+    const fetchedCovidData = await fetchData(country);
+    setCovidData(fetchedCovidData);
+    setCovidCountry(country);
+  }
+  useEffect(() => {
+    async function collectingData() {
+      const fetchedCovidData = await fetchData();
+      setCovidData(fetchedCovidData);
+    }
+    async function fetchCollectiveCovidData() {
+      const fetchedCovidData = await fetchCovidData();
+      setCovidData2(fetchedCovidData);
+    }
+    collectingData();
+    fetchCollectiveCovidData();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.container}>
+      <Cards data={covidData} />
+      <CountryPicker handleCovidCountryChange={handleCovidCountryChange} />
+      <Chart data={covidData} country={covidCountry}/>
+      <Map data={covidData2}/>
     </div>
   );
 }
