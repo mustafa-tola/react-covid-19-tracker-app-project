@@ -36,7 +36,7 @@ const CountryPicker = ({ handleCovidCountryChange }) => {
       >
         <option value="global">Global</option>
         {fetchedCovidCountries.map((country, i) => (
-          <option key={i} value={country.code}>
+          <option key={i} value={JSON.stringify(country.code)}>
             {country.title}
           </option>
         ))}
