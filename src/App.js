@@ -104,7 +104,7 @@ function App() {
     }
     fetchGlobalData();
     getChartData();
-  }, [globalData]);
+  }, [globalData,covidChartData]);
   return (
     <div className={styles.container}>
       <Header />

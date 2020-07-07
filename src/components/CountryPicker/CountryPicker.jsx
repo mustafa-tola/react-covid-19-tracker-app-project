@@ -15,11 +15,12 @@ const CountryPicker = ({ handleCovidCountryChange }) => {
 
       data.map(data2 => {
         if (data2.code) {
-          return covidData.push({
+          covidData.push({
             title: data2.title,
             code: data2.code
           });
         }
+        return covidData;
       });
       setFetchedCovidCountries(covidData);
     }
