@@ -13,9 +13,10 @@ function App() {
   const [covidCountry, setCovidCountry] = useState("global");
   const [covidChartData, setCovidChartData] = useState({});
   const [covidData2, setCovidData2] = useState([]);
+  const [collectedCovidData, setCollectedCovidData] = useState(false);
   const handleCovidCountryChange = async country => {
     setCovidCountry(country);
-    if (country !== "global") {
+    if (JSON.stringify(country) !== "global") {
       async function getData() {
         const response = await fetch(`https://api.thevirustracker.com/free-api?countryTotal=${country}`);
         const { countrydata } = await response.json();
@@ -77,34 +78,34 @@ function App() {
 
   useEffect(() => {
     async function fetchGlobalData() {
-      if (globalData !== []) {
-        const response = await fetch(
-          "https://api.thevirustracker.com/free-api?global=stats"
-        );
-        const { results } = await response.json();
-        const covidData = {
-          confirmed: results[0].total_cases,
-          recovered: results[0].total_recovered,
-          deaths: results[0].total_deaths,
-        }
-        setGlobalData(covidData);
+      const response = await fetch(
+        "https://api.thevirustracker.com/free-api?global=stats"
+      );
+      const { results } = await response.json();
+      const covidData = {
+        confirmed: results[0].total_cases,
+        recovered: results[0].total_recovered,
+        deaths: results[0].total_deaths,
       }
+      setGlobalData(covidData);
+      setCollectedCovidData(true)
     }
     async function getChartData() {
-      if (covidChartData !== []) {
-        const { data } = await axios.get(`https://covid19.mathdro.id/api/daily`);
-        const modifiedCovidData = data.map((dailyData) => ({
-          confirmed: dailyData.confirmed.total,
-          recovered: dailyData.recovered.total,
-          deaths: dailyData.deaths.total,
-          date: dailyData.reportDate
-        }))
-        setCovidChartData(modifiedCovidData);
-      }
+      const { data } = await axios.get(`https://covid19.mathdro.id/api/daily`);
+      const modifiedCovidData = data.map((dailyData) => ({
+        confirmed: dailyData.confirmed.total,
+        recovered: dailyData.recovered.total,
+        deaths: dailyData.deaths.total,
+        date: dailyData.reportDate
+      }))
+      setCovidChartData(modifiedCovidData);
+      setCollectedCovidData(true);
     }
-    fetchGlobalData();
-    getChartData();
-  }, [globalData,covidChartData]);
+    if (collectedCovidData === false) {
+      fetchGlobalData();
+      getChartData();
+    }
+  }, [globalData, covidChartData,collectedCovidData]);
   return (
     <div className={styles.container}>
       <Header />
