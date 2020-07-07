@@ -15,7 +15,7 @@ function App() {
   const [covidData2, setCovidData2] = useState([]);
   const handleCovidCountryChange = async country => {
     setCovidCountry(country);
-    if (country != "global") {
+    if (country !== "global") {
       async function getData() {
         const response = await fetch(`https://api.thevirustracker.com/free-api?countryTotal=${country}`);
         const { countrydata } = await response.json();
@@ -32,7 +32,7 @@ function App() {
         const keys = Object.keys(timelineitems["0"]);
         const covidData = [];
         keys.map(key => {
-          covidData.push({
+          return covidData.push({
             confirmed: timelineitems["0"][key]["new_daily_cases"],
             deaths: timelineitems["0"][key]["new_daily_deaths"],
             recovered: timelineitems["0"][key]["total_recoveries"],
@@ -104,7 +104,7 @@ function App() {
     }
     fetchGlobalData();
     getChartData();
-  }, [])
+  }, [globalData]);
   return (
     <div className={styles.container}>
       <Header />
