@@ -21,14 +21,7 @@ export const Chart = ({ data, country }) => {
                         borderColor: "rgba(250,0,0.5)",
                         backgroundColor: 'rgb(255, 51, 51,0.6)',
                         fill: true
-                    }, {
-                        data: data.map(({ recovered }) => recovered),
-                        label: 'Recovered',
-                        borderColor: "rgba(0,255,0,0.5)",
-                        backgroundColor: 'rgba(204, 255, 204,0.9)',
-                        fill: true,
-                    }
-                    ]
+                    }]
                 }}
             />
         )
