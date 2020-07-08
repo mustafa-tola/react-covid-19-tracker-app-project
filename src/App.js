@@ -22,6 +22,7 @@ function App() {
         const { countrydata } = await response.json();
         const covidData = {
           confirmed: countrydata[0].total_cases,
+          recovered: countrydata[0].total_recovered,
           deaths: countrydata[0].total_deaths,
         }
         setGlobalData(covidData);
@@ -50,6 +51,7 @@ function App() {
         const { results } = await response.json();
         const covidData = {
           confirmed: results[0].total_cases,
+          recovered: results[0].total_recovered,
           deaths: results[0].total_deaths,
         }
         setGlobalData(covidData);
@@ -81,6 +83,7 @@ function App() {
       const { results } = await response.json();
       const covidData = {
         confirmed: results[0].total_cases,
+        recovered: results[0].total_recovered,
         deaths: results[0].total_deaths,
       }
       setGlobalData(covidData);
